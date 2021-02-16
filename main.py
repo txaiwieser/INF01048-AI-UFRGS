@@ -96,7 +96,13 @@ class Puzzle:
         
         return list(map(fnc, directions))
             
-
+    def expand(self, cost):
+        successors = self.successors()
+        
+        def fnc(successor):
+            return (successor[0], successor[1], cost + 1, self.currentState)
+        
+        return list(map(fnc, successors))
 
 
 ### Puzzle Unit Tests
@@ -231,6 +237,15 @@ def puzzle_tests():
 
     assertSucessors()
 
+    def assertExpand():
+        obj = Puzzle("_12345678")
+        assert obj.expand(0) == [(Direction.BOTTOM, "312_45678", 1, "_12345678"), (Direction.RIGHT, "1_2345678",1 , "_12345678")]
+        
+        obj = Puzzle("1234_5678")
+        assert obj.expand(42) == [(Direction.TOP, "1_3425678", 43, "1234_5678"), (Direction.BOTTOM, "1234756_8", 43, "1234_5678"), (Direction.LEFT, "123_45678", 43, "1234_5678"), (Direction.RIGHT, "12345_678", 43, "1234_5678")]
+
+    assertExpand()
+
     debugPrint("ALL TESTS PASSED!!")
 
 puzzle_tests()
@@ -250,4 +265,16 @@ def sucessor(estado):
     print(result)
 
 sucessor("2_3541687")
+
+## Assignment 2
+def expande(estado, custo):
+    puzzle = Puzzle(estado)
+    assert puzzle.isValid() == True
+    def fnc(element):
+        return f"({ element[0].description() },{ element[1] },{ element[2] },{ element[3] })"
+
+    result = " ".join(map(fnc, puzzle.expand(custo)))
+    print(result)
+
+expande("2_3541687", 0)
 
