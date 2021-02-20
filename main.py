@@ -1,5 +1,6 @@
 from enum import Enum
 from typing import List
+import heapq
 
 DEBUG = True
 
@@ -25,6 +26,9 @@ class Puzzle:
         self.action = action
         self.parent = parent
         self.cost = cost
+
+    def __lt__(self, other):
+        return self.cost < other.cost
 
     def isValid(self):
         result = True
@@ -137,6 +141,85 @@ class Puzzle:
             extendFrontier = List.extend,
             removeFromFrontier = fnc
         )
+
+    # A*
+
+    def hammingHeuristic(self):
+        # Underline is not part of the count
+        return sum(1 for lhs, rhs in zip(self.currentState, "12345678") if lhs != rhs)
+
+    def manhattanHeuristic(self):
+        result = 0
+        for char in self.currentState:
+            if char == '1':
+                targetIndex = 0
+
+            elif char == '2':
+                targetIndex = 1
+
+            elif char == '3':
+                targetIndex = 2
+
+            elif char == '4':
+                targetIndex = 3
+
+            elif char == '5':
+                targetIndex = 4
+
+            elif char == '6':
+                targetIndex = 5
+
+            elif char == '7':
+                targetIndex = 6
+
+            elif char == '8':
+                targetIndex = 7
+
+            else:
+                # Underline is not part of the count
+                continue
+
+            currentIndex = self.currentState.index(char)
+
+            currentVerticalPosition = currentIndex // 3
+            currentHorizontalPosition = currentIndex % 3
+
+            targetVerticalPosition = targetIndex // 3
+            targetHorizontalPosition = targetIndex % 3
+
+            result += abs(currentVerticalPosition - targetVerticalPosition) + abs(currentHorizontalPosition - targetHorizontalPosition)
+
+        return result
+
+    def aStarBase(self, heuristicFunction):
+        def add(frontier, puzzle):
+            heuristic = heuristicFunction(puzzle)
+            puzzle.cost += heuristic
+            heapq.heappush(frontier, puzzle)
+
+        def extend(frontier, puzzles):
+            for puzzle in puzzles:
+                add(frontier, puzzle)
+
+        def remove(frontier):
+            return heapq.heappop(frontier)
+        
+        return self.__graphSearch__(
+            addToFrontier = add,
+            extendFrontier = extend,
+            removeFromFrontier = remove
+        )
+
+    def aStarHamming(self):
+        debugPrint('Starting A* H1 - Hamming')
+
+        return self.aStarBase(Puzzle.hammingHeuristic)
+        
+
+    def aStarManhattan(self):
+        debugPrint('Starting A* H2 - Manhattan')
+
+        return self.aStarBase(Puzzle.manhattanHeuristic)
 
     def __graphSearch__(self, addToFrontier, extendFrontier, removeFromFrontier):
         expandedNodes = 0
@@ -330,6 +413,47 @@ def puzzle_tests():
         
     assertDepthFirstSearch()
 
+    def assertHamingHeuristic():
+        completlyWrongObj = Puzzle("_87612345")
+        assert completlyWrongObj.hammingHeuristic() == 8
+
+        correctObj = Puzzle("12345678_")
+        assert correctObj.hammingHeuristic() == 0
+
+        semiWrongObj = Puzzle("123_45678")
+        assert semiWrongObj.hammingHeuristic() == 5
+
+    assertHamingHeuristic()
+
+    def assertManhattanHeuristic():
+        completlyWrongObj = Puzzle("_87612345")
+        assert completlyWrongObj.manhattanHeuristic() == 20
+
+        correctObj = Puzzle("12345678_")
+        assert correctObj.manhattanHeuristic() == 0
+
+        semiWrongObj = Puzzle("123_45678")
+        assert semiWrongObj.manhattanHeuristic() == 7
+
+        moodleQuizObj = Puzzle("5_4732816")
+        assert moodleQuizObj.manhattanHeuristic() == 15
+
+    assertManhattanHeuristic()
+
+    def assertAStartHamming():
+        obj = Puzzle("185432_67")
+        assert obj.aStarHamming() == [Direction.TOP, Direction.RIGHT, Direction.TOP, Direction.RIGHT, Direction.BOTTOM, Direction.LEFT, Direction.BOTTOM, Direction.RIGHT, Direction.TOP, Direction.LEFT, Direction.LEFT, Direction.BOTTOM, Direction.RIGHT, Direction.RIGHT, Direction.TOP, Direction.LEFT, Direction.TOP, Direction.RIGHT, Direction.BOTTOM, Direction.BOTTOM]
+
+    # This test takes a few seconds, best to comment out most of the time
+    # assertAStartHamming()
+
+    def assertAStartManhattan():
+        obj = Puzzle("185432_67")
+        assert obj.aStarManhattan() == [Direction.TOP, Direction.RIGHT, Direction.TOP, Direction.RIGHT, Direction.BOTTOM, Direction.LEFT, Direction.BOTTOM, Direction.RIGHT, Direction.TOP, Direction.LEFT, Direction.LEFT, Direction.BOTTOM, Direction.RIGHT, Direction.RIGHT, Direction.TOP, Direction.LEFT, Direction.TOP, Direction.RIGHT, Direction.BOTTOM, Direction.BOTTOM]
+
+    # This test takes a few seconds, best to comment out most of the time
+    # assertAStartManhattan()
+
     debugPrint("ALL TESTS PASSED!!")
 
 puzzle_tests()
@@ -386,3 +510,26 @@ def avalia_dfs(estado):
 
 # avalia_dfs("123456_78")
 
+## Assignment 3.3
+def avalia_astar_h1(estado):
+    puzzle = Puzzle(estado)
+    assert puzzle.isValid() == True
+    def fnc(element):
+        return f"{ element.description() }"
+
+    result = " ".join(map(fnc, puzzle.aStarHamming()))
+    print(result)
+
+# avalia_astar_h1("123456_78")
+
+## Assignment 3.4
+def avalia_astar_h2(estado):
+    puzzle = Puzzle(estado)
+    assert puzzle.isValid() == True
+    def fnc(element):
+        return f"{ element.description() }"
+
+    result = " ".join(map(fnc, puzzle.aStarManhattan()))
+    print(result)
+
+# avalia_astar_h2("123456_78")
