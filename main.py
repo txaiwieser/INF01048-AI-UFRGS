@@ -1,5 +1,6 @@
 from enum import Enum
 from typing import List
+from collections import deque
 import heapq
 
 DEBUG = True
@@ -117,11 +118,12 @@ class Puzzle:
         return list(map(fnc, successors))
 
     def path(self):
-        if self.parent is None:
-            return []
-        parentPath = self.parent.path()
-        parentPath.append(self.action)
-        return parentPath
+        path = deque()
+        puzzle = self
+        while puzzle.parent is not None:
+            path.appendleft(puzzle.action)
+            puzzle = puzzle.parent
+        return list(path)
 
     def breadthFirstSearch(self):
         debugPrint('Starting BFS')
