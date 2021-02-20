@@ -26,9 +26,10 @@ class Puzzle:
         self.action = action
         self.parent = parent
         self.cost = cost
+        self.total_cost = cost
 
     def __lt__(self, other):
-        return self.cost < other.cost
+        return self.total_cost < other.total_cost
 
     def isValid(self):
         result = True
@@ -195,7 +196,7 @@ class Puzzle:
     def aStarBase(self, heuristicFunction):
         def add(frontier, puzzle):
             heuristic = heuristicFunction(puzzle)
-            puzzle.cost += heuristic
+            puzzle.total_cost = puzzle.cost + heuristic
             heapq.heappush(frontier, puzzle)
 
         def extend(frontier, puzzles):
