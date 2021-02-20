@@ -223,7 +223,7 @@ class Puzzle:
 
     def __graphSearch__(self, addToFrontier, extendFrontier, removeFromFrontier):
         expandedNodes = 0
-        explored = []
+        explored = set()
         frontier = []
         addToFrontier(frontier, self)
         while True:
@@ -234,7 +234,7 @@ class Puzzle:
                 debugPrint('Graph search finished with ' + str(expandedNodes) + ' expanded nodes and cost ' + str(v.cost))
                 return v.path()
             if v.currentState not in explored:
-                explored.append(v.currentState)
+                explored.add(v.currentState)
                 sucessors = v.expand()
                 extendFrontier(frontier, sucessors)
                 expandedNodes += 1
