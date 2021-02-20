@@ -145,8 +145,7 @@ class Puzzle:
     # A*
 
     def hammingHeuristic(self):
-        # Underline is not part of the count
-        return sum(1 for lhs, rhs in zip(self.currentState, "12345678") if lhs != rhs)
+        return sum(1 for lhs, rhs in zip(self.currentState, "12345678_") if lhs != rhs)
 
     def manhattanHeuristic(self):
         result = 0
@@ -175,8 +174,10 @@ class Puzzle:
             elif char == '8':
                 targetIndex = 7
 
+            elif char == '_':
+                targetIndex = 8
+
             else:
-                # Underline is not part of the count
                 continue
 
             currentIndex = self.currentState.index(char)
@@ -415,28 +416,28 @@ def puzzle_tests():
 
     def assertHamingHeuristic():
         completlyWrongObj = Puzzle("_87612345")
-        assert completlyWrongObj.hammingHeuristic() == 8
+        assert completlyWrongObj.hammingHeuristic() == 9
 
         correctObj = Puzzle("12345678_")
         assert correctObj.hammingHeuristic() == 0
 
         semiWrongObj = Puzzle("123_45678")
-        assert semiWrongObj.hammingHeuristic() == 5
+        assert semiWrongObj.hammingHeuristic() == 6
 
     assertHamingHeuristic()
 
     def assertManhattanHeuristic():
         completlyWrongObj = Puzzle("_87612345")
-        assert completlyWrongObj.manhattanHeuristic() == 20
+        assert completlyWrongObj.manhattanHeuristic() == 24
 
         correctObj = Puzzle("12345678_")
         assert correctObj.manhattanHeuristic() == 0
 
         semiWrongObj = Puzzle("123_45678")
-        assert semiWrongObj.manhattanHeuristic() == 7
+        assert semiWrongObj.manhattanHeuristic() == 10
 
         moodleQuizObj = Puzzle("5_4732816")
-        assert moodleQuizObj.manhattanHeuristic() == 15
+        assert moodleQuizObj.manhattanHeuristic() == 18
 
     assertManhattanHeuristic()
 
