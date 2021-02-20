@@ -463,7 +463,7 @@ def puzzle_tests():
     # This test takes a few seconds, best to comment out most of the time
     assertAStartManhattan()
 
-    debugPrint("ALL TESTS PASSED!!")
+    infoPrint("ALL TESTS PASSED!!")
 
 puzzle_tests()
 
@@ -541,4 +541,32 @@ def avalia_astar_h2(estado):
     result = " ".join(map(fnc, puzzle.aStarManhattan()))
     if(result): print(result)
 
-# avalia_astar_h2("185423_67")
+# avalia_bfs('2_3541687')
+# avalia_dfs('2_3541687')
+# avalia_astar_h1('2_3541687')
+# avalia_astar_h2('2_3541687')
+
+# avalia_bfs('2_5341687')
+# avalia_dfs('2_5341687')
+# avalia_astar_h1('2_5341687')
+# avalia_astar_h2('2_5341687')
+
+# avalia_bfs('23_541687')
+# avalia_dfs('23_541687')
+# avalia_astar_h1('23_541687')
+# avalia_astar_h2('23_541687')
+
+# avalia_bfs('_23541687')
+# avalia_dfs('_23541687')
+# avalia_astar_h1('_23541687')
+# avalia_astar_h2('_23541687')
+
+# avalia_bfs('185432_67')
+# avalia_dfs('185432_67')
+# avalia_astar_h1('185432_67')
+# avalia_astar_h2('185432_67')
+
+# avalia_bfs('185423_67')
+# avalia_dfs('185423_67')
+# avalia_astar_h1('185423_67')
+# avalia_astar_h2('185423_67')
