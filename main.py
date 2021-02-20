@@ -237,7 +237,6 @@ def puzzle_tests():
         obj = Puzzle("12345678_")
         assert obj.availableDirections() == [Direction.TOP, Direction.LEFT]
 
-    
     assertAvailableDirections()
 
     def assertApplyDirection():
@@ -340,7 +339,7 @@ def sucessor(estado):
     result = " ".join(map(fnc, puzzle.successors()))
     print(result)
 
-sucessor("2_3541687")
+# sucessor("2_3541687")
 
 ## Assignment 2
 def expande(estado, custo):
@@ -352,7 +351,7 @@ def expande(estado, custo):
     result = " ".join(map(fnc, puzzle.expand()))
     print(result)
 
-expande("2_3541687", 0)
+# expande("2_3541687", 0)
 
 # Assignment 3.1
 def avalia_bfs(estado):
@@ -364,7 +363,7 @@ def avalia_bfs(estado):
     result = " ".join(map(fnc, puzzle.breadthFirstSearch()))
     print(result)
 
-avalia_bfs("123456_78")
+# avalia_bfs("123456_78")
 
 ## Assignment 3.2
 def avalia_dfs(estado):
@@ -376,5 +375,5 @@ def avalia_dfs(estado):
     result = " ".join(map(fnc, puzzle.depthFirstSearch()))
     print(result)
 
-avalia_dfs("123456_78")
+# avalia_dfs("123456_78")
 
