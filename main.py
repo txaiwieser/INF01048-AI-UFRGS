@@ -3,10 +3,14 @@ from typing import List
 from collections import deque
 import heapq
 
-DEBUG = True
+DEBUG = False
+INFO = True
 
 def debugPrint(str):
     if DEBUG: print("DEBUG: " + str)
+
+def infoPrint(str):
+    if INFO: print("INFO: " + str)
 
 class Direction(Enum):
     LEFT = 1
@@ -126,7 +130,7 @@ class Puzzle:
         return list(path)
 
     def breadthFirstSearch(self):
-        debugPrint('Starting BFS')
+        infoPrint('Starting BFS for ' + self.currentState)
         def fnc(frontier):
             return frontier.pop(0)
         return self.__graphSearch__(
@@ -136,7 +140,7 @@ class Puzzle:
         )
     
     def depthFirstSearch(self):
-        debugPrint('Starting DFS')
+        infoPrint('Starting DFS for ' + self.currentState)
         def fnc(frontier):
             return frontier.pop()
         return self.__graphSearch__(
@@ -215,13 +219,13 @@ class Puzzle:
         )
 
     def aStarHamming(self):
-        debugPrint('Starting A* H1 - Hamming')
+        infoPrint('Starting A* H1 - Hamming for ' + self.currentState)
 
         return self.aStarBase(Puzzle.hammingHeuristic)
         
 
     def aStarManhattan(self):
-        debugPrint('Starting A* H2 - Manhattan')
+        infoPrint('Starting A* H2 - Manhattan for ' + self.currentState)
 
         return self.aStarBase(Puzzle.manhattanHeuristic)
 
@@ -232,10 +236,11 @@ class Puzzle:
         addToFrontier(frontier, self)
         while True:
             if len(frontier) == 0: 
-                raise Exception("ERROR: Can't search graph with empty frontier.")
+                infoPrint('Could not find path')
+                return []
             v = removeFromFrontier(frontier)
             if v.isFinished():
-                debugPrint('Graph search finished with ' + str(expandedNodes) + ' expanded nodes and cost ' + str(v.cost))
+                infoPrint('Graph search finished with ' + str(expandedNodes) + ' expanded nodes and cost ' + str(v.cost))
                 return v.path()
             if v.currentState not in explored:
                 explored.add(v.currentState)
@@ -449,14 +454,14 @@ def puzzle_tests():
         assert obj.aStarHamming() == [Direction.TOP, Direction.RIGHT, Direction.TOP, Direction.RIGHT, Direction.BOTTOM, Direction.LEFT, Direction.BOTTOM, Direction.RIGHT, Direction.TOP, Direction.LEFT, Direction.LEFT, Direction.BOTTOM, Direction.RIGHT, Direction.RIGHT, Direction.TOP, Direction.LEFT, Direction.TOP, Direction.RIGHT, Direction.BOTTOM, Direction.BOTTOM]
 
     # This test takes a few seconds, best to comment out most of the time
-    # assertAStartHamming()
+    assertAStartHamming()
 
     def assertAStartManhattan():
         obj = Puzzle("185432_67")
         assert obj.aStarManhattan() == [Direction.TOP, Direction.RIGHT, Direction.TOP, Direction.RIGHT, Direction.BOTTOM, Direction.LEFT, Direction.BOTTOM, Direction.RIGHT, Direction.TOP, Direction.LEFT, Direction.LEFT, Direction.BOTTOM, Direction.RIGHT, Direction.RIGHT, Direction.TOP, Direction.LEFT, Direction.TOP, Direction.RIGHT, Direction.BOTTOM, Direction.BOTTOM]
 
     # This test takes a few seconds, best to comment out most of the time
-    # assertAStartManhattan()
+    assertAStartManhattan()
 
     debugPrint("ALL TESTS PASSED!!")
 
@@ -474,7 +479,7 @@ def sucessor(estado):
         return f"({ element.action.description() },{ element.currentState })"
 
     result = " ".join(map(fnc, puzzle.successors()))
-    print(result)
+    if(result): print(result)
 
 # sucessor("2_3541687")
 
@@ -486,7 +491,7 @@ def expande(estado, custo):
         return f"({ element.action.description() },{ element.currentState },{ element.cost },{ element.parent.currentState })"
 
     result = " ".join(map(fnc, puzzle.expand()))
-    print(result)
+    if(result): print(result)
 
 # expande("2_3541687", 0)
 
@@ -498,7 +503,7 @@ def avalia_bfs(estado):
         return f"{ element.description() }"
 
     result = " ".join(map(fnc, puzzle.breadthFirstSearch()))
-    print(result)
+    if(result): print(result)
 
 # avalia_bfs("123456_78")
 
@@ -510,7 +515,7 @@ def avalia_dfs(estado):
         return f"{ element.description() }"
 
     result = " ".join(map(fnc, puzzle.depthFirstSearch()))
-    print(result)
+    if(result): print(result)
 
 # avalia_dfs("123456_78")
 
@@ -522,7 +527,7 @@ def avalia_astar_h1(estado):
         return f"{ element.description() }"
 
     result = " ".join(map(fnc, puzzle.aStarHamming()))
-    print(result)
+    if(result): print(result)
 
 # avalia_astar_h1("123456_78")
 
@@ -534,6 +539,6 @@ def avalia_astar_h2(estado):
         return f"{ element.description() }"
 
     result = " ".join(map(fnc, puzzle.aStarManhattan()))
-    print(result)
+    if(result): print(result)
 
-# avalia_astar_h2("123456_78")
+# avalia_astar_h2("185423_67")
