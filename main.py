@@ -1,4 +1,5 @@
 from enum import Enum
+from typing import List
 
 DEBUG = True
 
@@ -121,19 +122,27 @@ class Puzzle:
         debugPrint('Starting BFS')
         def fnc(frontier):
             return frontier.pop(0)
-        return self.__graphSearch__(fnc)
+        return self.__graphSearch__(
+            addToFrontier = List.append,
+            extendFrontier = List.extend,
+            removeFromFrontier = fnc
+        )
     
     def depthFirstSearch(self):
         debugPrint('Starting DFS')
         def fnc(frontier):
             return frontier.pop()
-        return self.__graphSearch__(fnc)
+        return self.__graphSearch__(
+            addToFrontier = List.append,
+            extendFrontier = List.extend,
+            removeFromFrontier = fnc
+        )
 
-    def __graphSearch__(self, removeFromFrontier):
+    def __graphSearch__(self, addToFrontier, extendFrontier, removeFromFrontier):
         expandedNodes = 0
         explored = []
         frontier = []
-        frontier.append(self)
+        addToFrontier(frontier, self)
         while True:
             if len(frontier) == 0: 
                 raise Exception("ERROR: Can't search graph with empty frontier.")
@@ -144,7 +153,7 @@ class Puzzle:
             if v.currentState not in explored:
                 explored.append(v.currentState)
                 sucessors = v.expand()
-                frontier.extend(sucessors)
+                extendFrontier(frontier, sucessors)
                 expandedNodes += 1
 
     def __eq__(self, other): 
