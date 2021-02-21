@@ -29,6 +29,7 @@ class Puzzle:
         self.cost = cost
         self.total_cost = cost
 
+    # Comparison conformance
     def __lt__(self, other):
         return self.total_cost < other.total_cost
 
@@ -461,7 +462,8 @@ def puzzle_tests():
 
     debugPrint("ALL TESTS PASSED!!")
 
-puzzle_tests()
+## Uncomment to automatically run the test suit
+# puzzle_tests()
 
 
 ### Public API
