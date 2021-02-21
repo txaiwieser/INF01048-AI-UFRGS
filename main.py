@@ -2,6 +2,7 @@ from enum import Enum
 from typing import List
 from collections import deque
 import heapq
+import sys
 
 DEBUG = False
 
@@ -568,3 +569,18 @@ def avalia_astar_h2(estado):
 # avalia_dfs('185423_67')
 # avalia_astar_h1('185423_67')
 # avalia_astar_h2('185423_67')
+
+## Helper so we can call global funcions from the command line
+
+if __name__ == '__main__':
+    args = len(sys.argv)
+    if args == 2:
+        globals()[sys.argv[1]]()
+    elif args == 3:
+        globals()[sys.argv[1]](sys.argv[2])
+    elif args == 4:
+        globals()[sys.argv[1]](sys.argv[2], sys.argv[3])
+    elif args == 5:
+        globals()[sys.argv[1]](sys.argv[2], sys.argv[3], sys.argv[4])
+    else:
+        print("Supply a funcion name and parameter")
