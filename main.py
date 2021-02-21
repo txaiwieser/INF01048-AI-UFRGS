@@ -3,14 +3,10 @@ from typing import List
 from collections import deque
 import heapq
 
-DEBUG = False
-INFO = True
+DEBUG = True
 
 def debugPrint(str):
     if DEBUG: print("DEBUG: " + str)
-
-def infoPrint(str):
-    if INFO: print("INFO: " + str)
 
 class Direction(Enum):
     LEFT = 1
@@ -130,7 +126,7 @@ class Puzzle:
         return list(path)
 
     def breadthFirstSearch(self):
-        infoPrint('Starting BFS for ' + self.currentState)
+        debugPrint('Starting BFS for ' + self.currentState)
         def fnc(frontier):
             return frontier.pop(0)
         return self.__graphSearch__(
@@ -140,7 +136,7 @@ class Puzzle:
         )
     
     def depthFirstSearch(self):
-        infoPrint('Starting DFS for ' + self.currentState)
+        debugPrint('Starting DFS for ' + self.currentState)
         def fnc(frontier):
             return frontier.pop()
         return self.__graphSearch__(
@@ -219,13 +215,13 @@ class Puzzle:
         )
 
     def aStarHamming(self):
-        infoPrint('Starting A* H1 - Hamming for ' + self.currentState)
+        debugPrint('Starting A* H1 - Hamming for ' + self.currentState)
 
         return self.aStarBase(Puzzle.hammingHeuristic)
         
 
     def aStarManhattan(self):
-        infoPrint('Starting A* H2 - Manhattan for ' + self.currentState)
+        debugPrint('Starting A* H2 - Manhattan for ' + self.currentState)
 
         return self.aStarBase(Puzzle.manhattanHeuristic)
 
@@ -236,11 +232,11 @@ class Puzzle:
         addToFrontier(frontier, self)
         while True:
             if len(frontier) == 0: 
-                infoPrint('Could not find path')
+                debugPrint('Could not find path')
                 return []
             v = removeFromFrontier(frontier)
             if v.isFinished():
-                infoPrint('Graph search finished with ' + str(expandedNodes) + ' expanded nodes and cost ' + str(v.cost))
+                debugPrint('Graph search finished with ' + str(expandedNodes) + ' expanded nodes and cost ' + str(v.cost))
                 return v.path()
             if v.currentState not in explored:
                 explored.add(v.currentState)
@@ -463,7 +459,7 @@ def puzzle_tests():
     # This test takes a few seconds, best to comment out most of the time
     assertAStartManhattan()
 
-    infoPrint("ALL TESTS PASSED!!")
+    debugPrint("ALL TESTS PASSED!!")
 
 puzzle_tests()
 
