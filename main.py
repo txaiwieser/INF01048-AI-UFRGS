@@ -484,6 +484,7 @@ def sucessor(estado):
 
 ## Assignment 2
 def expande(estado, custo):
+    custo = int(custo)
     puzzle = Puzzle(estado, cost = custo)
     assert puzzle.isValid() == True
     def fnc(element):
