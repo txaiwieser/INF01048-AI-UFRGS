@@ -3,7 +3,7 @@ from typing import List
 from collections import deque
 import heapq
 
-DEBUG = True
+DEBUG = False
 
 def debugPrint(str):
     if DEBUG: print("DEBUG: " + str)
