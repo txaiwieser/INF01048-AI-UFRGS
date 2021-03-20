@@ -4,9 +4,12 @@ sys.path.append('..')
 from common import board
 import time
 
+MAX_RUN_TIME = 4.0
+INVALID_MOVE = (-1, -1)
+
 def make_move(the_board, color):
     """
-    Returns the best move from the list of possible ones according to up to 4.5 seconds of execution of minimax with alpha-beta pruning 
+    Returns the best move from the list of possible ones according to up to MAX_RUN_TIME seconds of execution of minimax with alpha-beta pruning 
     :return: (int, int)
     """
     color = board.Board.WHITE if color == 'white' else board.Board.BLACK
@@ -24,12 +27,12 @@ def max_value(the_board, color, alpha, beta, start_time):
 
     if len(current_legal_moves) == 0:
         print('[MAX] Stopping because found no further possible moves')
-        return utility(the_board, color), (-1,-1)
-    if time.time() - start_time > 4.0: # assuming we have 5s to decide
+        return utility(the_board, color), INVALID_MOVE
+    if time.time() - start_time >= MAX_RUN_TIME:
         print('[MAX] Stopping because time is up')
-        return utility(the_board, color), (-1,-1)
+        return utility(the_board, color), INVALID_MOVE
 
-    best_move = (-1, -1)
+    best_move = INVALID_MOVE
     for s in current_legal_moves:
         other_board = board.from_string(str(the_board)) # copy board
         other_board.process_move(s, color)
@@ -49,12 +52,12 @@ def min_value(the_board, color, alpha, beta, start_time):
  
     if len(current_legal_moves) == 0:
         print('[MIN] Stopping because found no further possible moves')
-        return utility(the_board, color), (-1,-1)
-    if time.time() - start_time > 4.0: # assuming we have 5s to decide
+        return utility(the_board, color), INVALID_MOVE
+    if time.time() - start_time >= MAX_RUN_TIME:
         print('[MIN] Stopping because time is up')
-        return utility(the_board, color), (-1,-1)
+        return utility(the_board, color), INVALID_MOVE
 
-    best_move = (-1, -1)
+    best_move = INVALID_MOVE
     for s in current_legal_moves:
         other_board = board.from_string(str(the_board)) # copy board
         other_board.process_move(s, the_board.opponent(color))
