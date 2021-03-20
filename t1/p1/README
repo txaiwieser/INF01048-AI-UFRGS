@@ -1,0 +1,19 @@
+# INF01048-AI-UFRGS
+Assignments of the Artificial Intelligence class at UFRGS
+
+Integrantes:
+- Matheus Rhoden, 277948, Turma A
+- Rodrigo Cardoso Buske, 206526, Turma B
+- Txai Wieser, 217052, Turma B
+
+Bibliotecas:
+- enum
+- typing
+- collections
+- heapq
+
+Resolução para 2_3541687:
+- BFS: 104693 nós expandidos e custo 23
+- DFS: 39636 nós expandidos e custo 38557
+- A* + Hamming: 13565 nós expandidos e custo 23
+- A* + Manhattan: 1560 nós expandidos e custo 23
