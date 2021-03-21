@@ -46,47 +46,46 @@ def max_value(the_board, color, alpha, beta, start_time, remaining_depth):
         other_board = board.from_string(str(the_board))
         other_board.process_move(s, color)
         
-        min_val = min_value(other_board, color, alpha, beta, start_time, remaining_depth - 1)[0]
+        min_val = min_value(other_board, the_board.opponent(color), alpha, beta, start_time, remaining_depth - 1)[0]
         if min_val > best_score:
             debugPrint(f'[MAX] Found better move { s }, with utility { min_val }')
             best_score = min_val
             best_move = s
         
         if best_score >= beta:
-            debugPrint('[MAX] Aplha-beta pruned')
+            debugPrint('[MAX] Alpha-beta pruned')
             return best_score, best_move
         
         alpha = max(alpha, best_score)
     return best_score, best_move
 
 def min_value(the_board, color, alpha, beta, start_time, remaining_depth):
-    opponent_color = the_board.opponent(color)
-    current_legal_moves = the_board.legal_moves(opponent_color)
+    current_legal_moves = the_board.legal_moves(color)
     debugPrint(f'[MIN] Current legal moves: { current_legal_moves }')
  
     if len(current_legal_moves) == 0:
         debugPrint('[MIN] Stopping because found no further possible moves')
-        return utility(the_board, color), INVALID_MOVE
+        return utility(the_board, the_board.opponent(color)), INVALID_MOVE
 
     best_move = current_legal_moves[0]
     best_score = INFINITY
 
     if remaining_depth == 0 or time.time() - start_time >= MAX_RUN_TIME:
         debugPrint('[MIN] Stopping because time is up')
-        return utility(the_board, color), best_move
+        return utility(the_board, the_board.opponent(color)), best_move
 
     for s in current_legal_moves:
         other_board = board.from_string(str(the_board))
-        other_board.process_move(s, opponent_color)
+        other_board.process_move(s, color)
         
-        max_val = max_value(other_board, color, alpha, beta, start_time, remaining_depth - 1)[0]
+        max_val = max_value(other_board, the_board.opponent(color), alpha, beta, start_time, remaining_depth - 1)[0]
         if max_val < best_score:
             debugPrint(f'[MIN] Found better move { s } with utility { max_val }')
             best_score = max_val
             best_move = s
         
         if best_score <= alpha:
-            debugPrint('[MIN] Aplha-beta pruned')
+            debugPrint('[MIN] Alpha-beta pruned')
             return best_score, best_move
         
         beta = min(beta, best_score)
