@@ -73,27 +73,28 @@ def min_value(the_board, color, alpha, beta, start_time):
     return beta, best_move
 
 def utility(the_board, color):
+    # Score Ratio: Tha ratio of points between our score and the opponent's
     current_score = sum([1 for char in str(the_board) if char == color])
     opponent_score = sum([1 for char in str(the_board) if char == the_board.opponent(color)])
-    
-    current_upper_border_tiles = sum([1 for char in str(the_board).replace('\n','')[:8] if char == color])
-    current_lower_border_tiles = sum([1 for char in str(the_board).replace('\n','')[-8:] if char == color])
-    current_left_border_tiles = sum([1 for char in str(the_board).replace('\n','')[::8] if char == color])
-    current_right_border_tiles = sum([1 for char in str(the_board).replace('\n','')[7::8] if char == color])
+    score_ratio = current_score / opponent_score if opponent_score else current_score
+
+    board_as_string = str(the_board).replace('\n','')
+    # Corner Wheight
+    current_upper_border_tiles = sum([1 for char in board_as_string[:8] if char == color])
+    current_lower_border_tiles = sum([1 for char in board_as_string[-8:] if char == color])
+    current_left_border_tiles = sum([1 for char in board_as_string[::8] if char == color])
+    current_right_border_tiles = sum([1 for char in board_as_string[7::8] if char == color])
     current_total_border_tiles = current_upper_border_tiles + current_lower_border_tiles + current_left_border_tiles + current_right_border_tiles
 
-    opponent_upper_border_tiles = sum([1 for char in str(the_board).replace('\n','')[:8] if char == the_board.opponent(color)])
-    opponent_lower_border_tiles = sum([1 for char in str(the_board).replace('\n','')[-8:] if char == the_board.opponent(color)])
-    opponent_left_border_tiles = sum([1 for char in str(the_board).replace('\n','')[::8] if char == the_board.opponent(color)])
-    opponent_right_border_tiles = sum([1 for char in str(the_board).replace('\n','')[7::8] if char == the_board.opponent(color)])
+    opponent_upper_border_tiles = sum([1 for char in board_as_string[:8] if char == the_board.opponent(color)])
+    opponent_lower_border_tiles = sum([1 for char in board_as_string[-8:] if char == the_board.opponent(color)])
+    opponent_left_border_tiles = sum([1 for char in board_as_string[::8] if char == the_board.opponent(color)])
+    opponent_right_border_tiles = sum([1 for char in board_as_string[7::8] if char == the_board.opponent(color)])
     opponent_total_border_tiles = opponent_upper_border_tiles + opponent_lower_border_tiles + opponent_left_border_tiles + opponent_right_border_tiles
 
-    score_ratio = current_score / opponent_score if opponent_score else current_score
     border_ratio = current_total_border_tiles / opponent_total_border_tiles if opponent_total_border_tiles else current_total_border_tiles
-
-    utility = score_ratio + border_ratio
     
-    return utility
+    return score_ratio + border_ratio
 
 if __name__ == '__main__':
     b = board.from_file(sys.argv[1])
