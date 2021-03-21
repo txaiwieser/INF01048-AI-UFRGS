@@ -100,7 +100,7 @@ def utility(the_board, color):
     score_ratio = current_score / opponent_score if opponent_score else current_score
 
     board_as_string = str(the_board).replace('\n','')
-    # Corner Wheight
+    # Corner Weight
     current_upper_border_tiles = sum([1 for char in board_as_string[:8] if char == color])
     current_lower_border_tiles = sum([1 for char in board_as_string[-8:] if char == color])
     current_left_border_tiles = sum([1 for char in board_as_string[::8] if char == color])
