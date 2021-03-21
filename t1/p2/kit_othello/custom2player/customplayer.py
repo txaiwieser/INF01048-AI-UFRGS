@@ -4,13 +4,14 @@ sys.path.append('..')
 from common import board
 import time
 
-DEBUG = False
+DEBUG = True
 MAX_RUN_TIME = 4.0
 INVALID_MOVE = (-1, -1)
 INFINITY = float('inf')
+MAX_DEPTH = 10
 
 def debugPrint(str):
-    if DEBUG: print("DEBUG: " + str)
+    if DEBUG: print("DEBUG B: " + str)
 
 def make_move(the_board, color):
     """
@@ -22,8 +23,7 @@ def make_move(the_board, color):
     return decide(the_board, color)
 
 def decide(the_board, color):
-    depth = 5
-    v, m = max_value(the_board, color, INFINITY, -INFINITY, time.time(), 5)
+    v, m = max_value(the_board, color, INFINITY, -INFINITY, time.time(), MAX_DEPTH)
     debugPrint(f'Found best move: { v }, { m }')
     return m
 
