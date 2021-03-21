@@ -28,6 +28,7 @@ def max_value(the_board, color, alpha, beta, start_time):
     if len(current_legal_moves) == 0:
         print('[MAX] Stopping because found no further possible moves')
         return utility(the_board, color), INVALID_MOVE
+    
     if time.time() - start_time >= MAX_RUN_TIME:
         print('[MAX] Stopping because time is up')
         return utility(the_board, color), INVALID_MOVE
@@ -41,7 +42,7 @@ def max_value(the_board, color, alpha, beta, start_time):
             print('[MAX] Found better move ', s, ' with utility ', min_val)
             alpha = min_val
             best_move = s
-            if beta > alpha:
+            if beta < alpha:
                 print('[MAX] Aplha-beta pruned')
                 return alpha, best_move
     return alpha, best_move
