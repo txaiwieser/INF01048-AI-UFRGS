@@ -67,7 +67,7 @@ def min_value(the_board, color, alpha, beta, start_time):
         return utility(the_board, color), INVALID_MOVE
 
     best_move = current_legal_moves[0]
-    best_score = -INFINITY
+    best_score = INFINITY
 
     if time.time() - start_time >= MAX_RUN_TIME:
         debugPrint('[MIN] Stopping because time is up')
