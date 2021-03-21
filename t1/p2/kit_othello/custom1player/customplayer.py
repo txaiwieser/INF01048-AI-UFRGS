@@ -4,8 +4,8 @@ sys.path.append('..')
 from common import board
 import time
 
-DEBUG = True
-MAX_RUN_TIME = 4.0
+DEBUG = False
+MAX_RUN_TIME = 3.0
 INVALID_MOVE = (-1, -1)
 INFINITY = float('inf')
 MAX_DEPTH = 10
@@ -38,8 +38,12 @@ def max_value(the_board, color, alpha, beta, start_time, remaining_depth):
     best_move = current_legal_moves[0]
     best_score = -INFINITY
     
-    if remaining_depth == 0 or time.time() - start_time >= MAX_RUN_TIME:
+    if time.time() - start_time >= MAX_RUN_TIME:
         debugPrint('[MAX] Stopping because time is up')
+        return utility(the_board, color), best_move
+    
+    if remaining_depth == 0:
+        debugPrint('[MAX] Stopping because reach MAX_DEPTH')
         return utility(the_board, color), best_move
 
     for s in current_legal_moves:
@@ -73,9 +77,13 @@ def min_value(the_board, color, alpha, beta, start_time, remaining_depth):
     best_move = current_legal_moves[0]
     best_score = INFINITY
 
-    if remaining_depth == 0 or time.time() - start_time >= MAX_RUN_TIME:
-        debugPrint('[MIN] Stopping because time is up')
-        return utility(the_board, opponent_color), best_move
+    if time.time() - start_time >= MAX_RUN_TIME:
+        debugPrint('[MAX] Stopping because time is up')
+        return utility(the_board, color), best_move
+    
+    if remaining_depth == 0:
+        debugPrint('[MAX] Stopping because reach MAX_DEPTH')
+        return utility(the_board, color), best_move
 
     for s in current_legal_moves:
         other_board = board.from_string(str(the_board))
