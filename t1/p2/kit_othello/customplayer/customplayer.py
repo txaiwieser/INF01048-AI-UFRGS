@@ -59,7 +59,8 @@ def max_value(the_board, color, alpha, beta, start_time):
     return best_score, best_move
 
 def min_value(the_board, color, alpha, beta, start_time):
-    current_legal_moves = the_board.legal_moves(the_board.opponent(color))
+    opponent_color = the_board.opponent(color)
+    current_legal_moves = the_board.legal_moves(opponent_color)
     debugPrint(f'[MIN] Current legal moves: { current_legal_moves }')
  
     if len(current_legal_moves) == 0:
@@ -75,7 +76,7 @@ def min_value(the_board, color, alpha, beta, start_time):
 
     for s in current_legal_moves:
         other_board = board.from_string(str(the_board))
-        other_board.process_move(s, the_board.opponent(color))
+        other_board.process_move(s, opponent_color)
         
         max_val = max_value(other_board, color, alpha, beta, start_time)[0]
         if max_val < best_score:
@@ -91,6 +92,8 @@ def min_value(the_board, color, alpha, beta, start_time):
     return best_score, best_move
 
 def utility(the_board, color):
+    opponent_color = the_board.opponent(color)
+
     # Score Ratio: Tha ratio of points between our score and the opponent's
     current_score = sum([1 for char in str(the_board) if char == color])
     opponent_score = sum([1 for char in str(the_board) if char == the_board.opponent(color)])
@@ -104,10 +107,10 @@ def utility(the_board, color):
     current_right_border_tiles = sum([1 for char in board_as_string[7::8] if char == color])
     current_total_border_tiles = current_upper_border_tiles + current_lower_border_tiles + current_left_border_tiles + current_right_border_tiles
 
-    opponent_upper_border_tiles = sum([1 for char in board_as_string[:8] if char == the_board.opponent(color)])
-    opponent_lower_border_tiles = sum([1 for char in board_as_string[-8:] if char == the_board.opponent(color)])
-    opponent_left_border_tiles = sum([1 for char in board_as_string[::8] if char == the_board.opponent(color)])
-    opponent_right_border_tiles = sum([1 for char in board_as_string[7::8] if char == the_board.opponent(color)])
+    opponent_upper_border_tiles = sum([1 for char in board_as_string[:8] if char == opponent_color])
+    opponent_lower_border_tiles = sum([1 for char in board_as_string[-8:] if char == opponent_color])
+    opponent_left_border_tiles = sum([1 for char in board_as_string[::8] if char == opponent_color])
+    opponent_right_border_tiles = sum([1 for char in board_as_string[7::8] if char == opponent_color])
     opponent_total_border_tiles = opponent_upper_border_tiles + opponent_lower_border_tiles + opponent_left_border_tiles + opponent_right_border_tiles
 
     border_ratio = current_total_border_tiles / opponent_total_border_tiles if opponent_total_border_tiles else current_total_border_tiles
