@@ -96,6 +96,36 @@ def min_value(the_board, color, alpha, beta, start_time, remaining_depth):
     return best_score, best_move
 
 def utility(the_board, color):
+    heuristic2(the_board, color)
+
+def heuristic1(the_board, color):
+    opponent_color = the_board.opponent(color)
+
+    # Score Ratio: Tha ratio of points between our score and the opponent's
+    current_score = sum([1 for char in str(the_board) if char == color])
+    opponent_score = sum([1 for char in str(the_board) if char == the_board.opponent(color)])
+    score_ratio = current_score / opponent_score if opponent_score else current_score
+
+    board_as_string = str(the_board).replace('\n','')
+    
+    # Corner Weight
+    current_upper_border_tiles = sum([1 for char in board_as_string[:8] if char == color])
+    current_lower_border_tiles = sum([1 for char in board_as_string[-8:] if char == color])
+    current_left_border_tiles = sum([1 for char in board_as_string[::8] if char == color])
+    current_right_border_tiles = sum([1 for char in board_as_string[7::8] if char == color])
+    current_total_border_tiles = current_upper_border_tiles + current_lower_border_tiles + current_left_border_tiles + current_right_border_tiles
+
+    opponent_upper_border_tiles = sum([1 for char in board_as_string[:8] if char == opponent_color])
+    opponent_lower_border_tiles = sum([1 for char in board_as_string[-8:] if char == opponent_color])
+    opponent_left_border_tiles = sum([1 for char in board_as_string[::8] if char == opponent_color])
+    opponent_right_border_tiles = sum([1 for char in board_as_string[7::8] if char == opponent_color])
+    opponent_total_border_tiles = opponent_upper_border_tiles + opponent_lower_border_tiles + opponent_left_border_tiles + opponent_right_border_tiles
+
+    border_ratio = current_total_border_tiles / opponent_total_border_tiles if opponent_total_border_tiles else current_total_border_tiles
+    
+    return score_ratio + border_ratio
+
+def heuristic2(the_board, color):
     opponent_color = the_board.opponent(color)
 
     # Board Score: Tha score of points. Number of pieces of our color minus the opponent's pieces
@@ -126,33 +156,6 @@ def utility(the_board, color):
             positions_weight -= weight
     
     return 2 * positions_weight + 3 * board_score
-
-def utility2(the_board, color):
-    opponent_color = the_board.opponent(color)
-
-    # Score Ratio: Tha ratio of points between our score and the opponent's
-    current_score = sum([1 for char in str(the_board) if char == color])
-    opponent_score = sum([1 for char in str(the_board) if char == the_board.opponent(color)])
-    score_ratio = current_score / opponent_score if opponent_score else current_score
-
-    board_as_string = str(the_board).replace('\n','')
-    
-    # Corner Weight
-    current_upper_border_tiles = sum([1 for char in board_as_string[:8] if char == color])
-    current_lower_border_tiles = sum([1 for char in board_as_string[-8:] if char == color])
-    current_left_border_tiles = sum([1 for char in board_as_string[::8] if char == color])
-    current_right_border_tiles = sum([1 for char in board_as_string[7::8] if char == color])
-    current_total_border_tiles = current_upper_border_tiles + current_lower_border_tiles + current_left_border_tiles + current_right_border_tiles
-
-    opponent_upper_border_tiles = sum([1 for char in board_as_string[:8] if char == opponent_color])
-    opponent_lower_border_tiles = sum([1 for char in board_as_string[-8:] if char == opponent_color])
-    opponent_left_border_tiles = sum([1 for char in board_as_string[::8] if char == opponent_color])
-    opponent_right_border_tiles = sum([1 for char in board_as_string[7::8] if char == opponent_color])
-    opponent_total_border_tiles = opponent_upper_border_tiles + opponent_lower_border_tiles + opponent_left_border_tiles + opponent_right_border_tiles
-
-    border_ratio = current_total_border_tiles / opponent_total_border_tiles if opponent_total_border_tiles else current_total_border_tiles
-    
-    return score_ratio + border_ratio
 
 if __name__ == '__main__':
     b = board.from_file(sys.argv[1])
