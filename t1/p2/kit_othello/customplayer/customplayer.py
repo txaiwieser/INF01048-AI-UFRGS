@@ -6,6 +6,7 @@ import time
 
 MAX_RUN_TIME = 4.0
 INVALID_MOVE = (-1, -1)
+INFINITY = float('inf')
 
 def make_move(the_board, color):
     """
@@ -17,7 +18,7 @@ def make_move(the_board, color):
     return decide(the_board, color)
 
 def decide(the_board, color):
-    v, m = max_value(the_board, color, float("-inf"), float("inf"), time.time())
+    v, m = max_value(the_board, color, INFINITY, -INFINITY, time.time())
     print('Found best move: ', v, m)
     return m
 
