@@ -57,12 +57,12 @@ def max_value(the_board, color, alpha, beta, start_time, remaining_depth):
             best_score = min_val
             best_move = s
 
-        if best_score >= beta:
-            debugPrint('[MAX] Alpha-beta pruned')
-            return best_score, best_move
-
         alpha = max(alpha, best_score)
-    return best_score, best_move
+
+        if alpha >= beta:
+            debugPrint('[MAX] Alpha-beta pruned')
+            return alpha, best_move
+    return alpha, best_move
 
 def min_value(the_board, color, alpha, beta, start_time, remaining_depth):
     opponent_color = the_board.opponent(color)
@@ -95,13 +95,13 @@ def min_value(the_board, color, alpha, beta, start_time, remaining_depth):
             debugPrint(f'[MIN] Found better move { s }')
             best_score = max_val
             best_move = s
-            
-        if best_score <= alpha:
-            debugPrint('[MIN] Alpha-beta pruned')
-            return best_score, best_move
 
         beta = min(beta, best_score)
-    return best_score, best_move
+
+        if beta <= alpha:
+            debugPrint('[MIN] Alpha-beta pruned')
+            return beta, best_move
+    return beta, best_move
 
 def utility(the_board, color):
     return heuristic2(the_board, color)
