@@ -1,4 +1,3 @@
-import random
 import sys
 sys.path.append('..')
 from common import board
@@ -11,7 +10,7 @@ INFINITY = float('inf')
 MAX_DEPTH = 10
 
 def debugPrint(str):
-    if DEBUG: print("DEBUG B: " + str)
+    if DEBUG: print("DEBUG A: " + str)
 
 def make_move(the_board, color):
     """
@@ -112,7 +111,7 @@ def heuristic1(the_board, color):
 
     # Score Ratio: Tha ratio of points between our score and the opponent's
     current_score = sum([1 for char in str(the_board) if char == color])
-    opponent_score = sum([1 for char in str(the_board) if char == the_board.opponent(color)])
+    opponent_score = sum([1 for char in str(the_board) if char == opponent_color])
     score_ratio = current_score / opponent_score if opponent_score else current_score
 
     board_as_string = str(the_board).replace('\n','')
