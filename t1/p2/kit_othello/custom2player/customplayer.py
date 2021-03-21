@@ -23,7 +23,7 @@ def make_move(the_board, color):
     return decide(the_board, color)
 
 def decide(the_board, color):
-    v, m = max_value(the_board, color, INFINITY, -INFINITY, time.time(), MAX_DEPTH)
+    v, m = max_value(the_board, color, -INFINITY, INFINITY, time.time(), MAX_DEPTH)
     debugPrint(f'Found best move: { v }, { m }')
     return m
 
@@ -47,15 +47,17 @@ def max_value(the_board, color, alpha, beta, start_time, remaining_depth):
         other_board.process_move(s, color)
         
         min_val = min_value(other_board, the_board.opponent(color), alpha, beta, start_time, remaining_depth - 1)[0]
+        debugPrint(f'[MAX] MinVal { min_val }')
+
         if min_val > best_score:
-            debugPrint(f'[MAX] Found better move { s }, with utility { min_val }')
+            debugPrint(f'[MAX] Found better move { s }')
             best_score = min_val
             best_move = s
-        
+
         if best_score >= beta:
             debugPrint('[MAX] Alpha-beta pruned')
             return best_score, best_move
-        
+
         alpha = max(alpha, best_score)
     return best_score, best_move
 
@@ -79,15 +81,17 @@ def min_value(the_board, color, alpha, beta, start_time, remaining_depth):
         other_board.process_move(s, color)
         
         max_val = max_value(other_board, the_board.opponent(color), alpha, beta, start_time, remaining_depth - 1)[0]
+        debugPrint(f'[MIN] MaxVal { max_val }')
+
         if max_val < best_score:
-            debugPrint(f'[MIN] Found better move { s } with utility { max_val }')
+            debugPrint(f'[MIN] Found better move { s }')
             best_score = max_val
             best_move = s
-        
+            
         if best_score <= alpha:
             debugPrint('[MIN] Alpha-beta pruned')
             return best_score, best_move
-        
+
         beta = min(beta, best_score)
     return best_score, best_move
 
@@ -122,6 +126,33 @@ def utility(the_board, color):
             positions_weight -= weight
     
     return 2 * positions_weight + 3 * board_score
+
+def utility2(the_board, color):
+    opponent_color = the_board.opponent(color)
+
+    # Score Ratio: Tha ratio of points between our score and the opponent's
+    current_score = sum([1 for char in str(the_board) if char == color])
+    opponent_score = sum([1 for char in str(the_board) if char == the_board.opponent(color)])
+    score_ratio = current_score / opponent_score if opponent_score else current_score
+
+    board_as_string = str(the_board).replace('\n','')
+    
+    # Corner Weight
+    current_upper_border_tiles = sum([1 for char in board_as_string[:8] if char == color])
+    current_lower_border_tiles = sum([1 for char in board_as_string[-8:] if char == color])
+    current_left_border_tiles = sum([1 for char in board_as_string[::8] if char == color])
+    current_right_border_tiles = sum([1 for char in board_as_string[7::8] if char == color])
+    current_total_border_tiles = current_upper_border_tiles + current_lower_border_tiles + current_left_border_tiles + current_right_border_tiles
+
+    opponent_upper_border_tiles = sum([1 for char in board_as_string[:8] if char == opponent_color])
+    opponent_lower_border_tiles = sum([1 for char in board_as_string[-8:] if char == opponent_color])
+    opponent_left_border_tiles = sum([1 for char in board_as_string[::8] if char == opponent_color])
+    opponent_right_border_tiles = sum([1 for char in board_as_string[7::8] if char == opponent_color])
+    opponent_total_border_tiles = opponent_upper_border_tiles + opponent_lower_border_tiles + opponent_left_border_tiles + opponent_right_border_tiles
+
+    border_ratio = current_total_border_tiles / opponent_total_border_tiles if opponent_total_border_tiles else current_total_border_tiles
+    
+    return score_ratio + border_ratio
 
 if __name__ == '__main__':
     b = board.from_file(sys.argv[1])

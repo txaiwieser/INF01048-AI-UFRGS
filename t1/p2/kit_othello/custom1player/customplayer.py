@@ -23,7 +23,7 @@ def make_move(the_board, color):
     return decide(the_board, color)
 
 def decide(the_board, color):
-    v, m = max_value(the_board, color, INFINITY, -INFINITY, time.time(), MAX_DEPTH)
+    v, m = max_value(the_board, color, -INFINITY, INFINITY, time.time(), MAX_DEPTH)
     debugPrint(f'Found best move: { v }, { m }')
     return m
 
