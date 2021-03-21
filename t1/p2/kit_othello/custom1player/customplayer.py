@@ -62,25 +62,26 @@ def max_value(the_board, color, alpha, beta, start_time, remaining_depth):
     return best_score, best_move
 
 def min_value(the_board, color, alpha, beta, start_time, remaining_depth):
+    opponent_color = the_board.opponent(color)
     current_legal_moves = the_board.legal_moves(color)
     debugPrint(f'[MIN] Current legal moves: { current_legal_moves }')
  
     if len(current_legal_moves) == 0:
         debugPrint('[MIN] Stopping because found no further possible moves')
-        return utility(the_board, the_board.opponent(color)), INVALID_MOVE
+        return utility(the_board, opponent_color), INVALID_MOVE
 
     best_move = current_legal_moves[0]
     best_score = INFINITY
 
     if remaining_depth == 0 or time.time() - start_time >= MAX_RUN_TIME:
         debugPrint('[MIN] Stopping because time is up')
-        return utility(the_board, the_board.opponent(color)), best_move
+        return utility(the_board, opponent_color), best_move
 
     for s in current_legal_moves:
         other_board = board.from_string(str(the_board))
         other_board.process_move(s, color)
         
-        max_val = max_value(other_board, the_board.opponent(color), alpha, beta, start_time, remaining_depth - 1)[0]
+        max_val = max_value(other_board, opponent_color, alpha, beta, start_time, remaining_depth - 1)[0]
         debugPrint(f'[MIN] MaxVal { max_val }')
 
         if max_val < best_score:
@@ -96,7 +97,7 @@ def min_value(the_board, color, alpha, beta, start_time, remaining_depth):
     return best_score, best_move
 
 def utility(the_board, color):
-    heuristic1(the_board, color)
+    return heuristic1(the_board, color)
 
 def heuristic1(the_board, color):
     opponent_color = the_board.opponent(color)
