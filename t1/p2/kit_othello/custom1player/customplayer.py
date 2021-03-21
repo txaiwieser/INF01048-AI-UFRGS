@@ -22,11 +22,12 @@ def make_move(the_board, color):
     return decide(the_board, color)
 
 def decide(the_board, color):
-    v, m = max_value(the_board, color, INFINITY, -INFINITY, time.time())
+    depth = 5
+    v, m = max_value(the_board, color, INFINITY, -INFINITY, time.time(), 5)
     debugPrint(f'Found best move: { v }, { m }')
     return m
 
-def max_value(the_board, color, alpha, beta, start_time):
+def max_value(the_board, color, alpha, beta, start_time, remaining_depth):
     current_legal_moves = the_board.legal_moves(color)
     debugPrint(f'[MAX] Current legal moves: { current_legal_moves }')
 
@@ -37,7 +38,7 @@ def max_value(the_board, color, alpha, beta, start_time):
     best_move = current_legal_moves[0]
     best_score = -INFINITY
     
-    if time.time() - start_time >= MAX_RUN_TIME:
+    if remaining_depth == 0 or time.time() - start_time >= MAX_RUN_TIME:
         debugPrint('[MAX] Stopping because time is up')
         return utility(the_board, color), best_move
 
@@ -45,7 +46,7 @@ def max_value(the_board, color, alpha, beta, start_time):
         other_board = board.from_string(str(the_board))
         other_board.process_move(s, color)
         
-        min_val = min_value(other_board, color, alpha, beta, start_time)[0]
+        min_val = min_value(other_board, color, alpha, beta, start_time, remaining_depth - 1)[0]
         if min_val > best_score:
             debugPrint(f'[MAX] Found better move { s }, with utility { min_val }')
             best_score = min_val
@@ -58,7 +59,7 @@ def max_value(the_board, color, alpha, beta, start_time):
         alpha = max(alpha, best_score)
     return best_score, best_move
 
-def min_value(the_board, color, alpha, beta, start_time):
+def min_value(the_board, color, alpha, beta, start_time, remaining_depth):
     opponent_color = the_board.opponent(color)
     current_legal_moves = the_board.legal_moves(opponent_color)
     debugPrint(f'[MIN] Current legal moves: { current_legal_moves }')
@@ -70,7 +71,7 @@ def min_value(the_board, color, alpha, beta, start_time):
     best_move = current_legal_moves[0]
     best_score = INFINITY
 
-    if time.time() - start_time >= MAX_RUN_TIME:
+    if remaining_depth == 0 or time.time() - start_time >= MAX_RUN_TIME:
         debugPrint('[MIN] Stopping because time is up')
         return utility(the_board, color), best_move
 
@@ -78,7 +79,7 @@ def min_value(the_board, color, alpha, beta, start_time):
         other_board = board.from_string(str(the_board))
         other_board.process_move(s, opponent_color)
         
-        max_val = max_value(other_board, color, alpha, beta, start_time)[0]
+        max_val = max_value(other_board, color, alpha, beta, start_time, remaining_depth - 1)[0]
         if max_val < best_score:
             debugPrint(f'[MIN] Found better move { s } with utility { max_val }')
             best_score = max_val
