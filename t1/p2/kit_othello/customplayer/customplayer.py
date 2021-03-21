@@ -30,23 +30,29 @@ def max_value(the_board, color, alpha, beta, start_time):
         print('[MAX] Stopping because found no further possible moves')
         return utility(the_board, color), INVALID_MOVE
     
+    best_move = current_legal_moves[0]
+    best_score = -INFINITY
+    
     if time.time() - start_time >= MAX_RUN_TIME:
         print('[MAX] Stopping because time is up')
-        return utility(the_board, color), INVALID_MOVE
+        return utility(the_board, color), best_move
 
-    best_move = INVALID_MOVE
     for s in current_legal_moves:
-        other_board = board.from_string(str(the_board)) # copy board
+        other_board = board.from_string(str(the_board))
         other_board.process_move(s, color)
+        
         min_val = min_value(other_board, color, alpha, beta, start_time)[0]
-        if alpha < min_val:
+        if min_val > best_score:
             print('[MAX] Found better move ', s, ' with utility ', min_val)
-            alpha = min_val
+            best_score = min_val
             best_move = s
-            if beta < alpha:
-                print('[MAX] Aplha-beta pruned')
-                return alpha, best_move
-    return alpha, best_move
+        
+        if best_score >= beta:
+            print('[MAX] Aplha-beta pruned')
+            return best_score, best_move
+        
+        alpha = max(alpha, best_score)
+    return best_score, best_move
 
 def min_value(the_board, color, alpha, beta, start_time):
     current_legal_moves = the_board.legal_moves(the_board.opponent(color))
@@ -55,23 +61,30 @@ def min_value(the_board, color, alpha, beta, start_time):
     if len(current_legal_moves) == 0:
         print('[MIN] Stopping because found no further possible moves')
         return utility(the_board, color), INVALID_MOVE
+
+    best_move = current_legal_moves[0]
+    best_score = -INFINITY
+
     if time.time() - start_time >= MAX_RUN_TIME:
         print('[MIN] Stopping because time is up')
-        return utility(the_board, color), INVALID_MOVE
+        return utility(the_board, color), best_move
 
-    best_move = INVALID_MOVE
     for s in current_legal_moves:
-        other_board = board.from_string(str(the_board)) # copy board
+        other_board = board.from_string(str(the_board))
         other_board.process_move(s, the_board.opponent(color))
+        
         max_val = max_value(other_board, color, alpha, beta, start_time)[0]
-        if beta > max_val:
+        if max_val < best_score:
             print('[MIN] Found better move ', s, ' with utility ', max_val)
-            beta = max_val
+            best_score = max_val
             best_move = s
-            if alpha > beta:
-                print('[MIN] Aplha-beta pruned')
-                return beta, best_move
-    return beta, best_move
+        
+        if best_score <= alpha:
+            print('[MIN] Aplha-beta pruned')
+            return best_score, best_move
+        
+        beta = min(beta, best_score)
+    return best_score, best_move
 
 def utility(the_board, color):
     # Score Ratio: Tha ratio of points between our score and the opponent's
