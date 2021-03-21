@@ -113,9 +113,10 @@ def utility(the_board, color):
 
     positions_weight = 0
     for index, weight in enumerate(board_weights):
-        if board_as_string[index] == color:
+        board_position = board_as_string[index]
+        if board_position == color:
             positions_weight += weight
-        else:
+        elif board_position == the_board.opponent(color):
             positions_weight -= weight
     
     return positions_weight + board_score
