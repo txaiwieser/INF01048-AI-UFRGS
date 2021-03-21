@@ -93,10 +93,12 @@ def min_value(the_board, color, alpha, beta, start_time, remaining_depth):
     return best_score, best_move
 
 def utility(the_board, color):
+    opponent_color = the_board.opponent(color)
+
     # Board Score: Tha score of points. Number of pieces of our color minus the opponent's pieces
     board_as_string = str(the_board).replace('\n','')
     current_score = sum([1 for char in board_as_string if char == color])
-    opponent_score = sum([1 for char in board_as_string if char == the_board.opponent(color)])
+    opponent_score = sum([1 for char in board_as_string if char == opponent_color])
     board_score = current_score - opponent_score
     
     # Corner Weights
@@ -112,14 +114,15 @@ def utility(the_board, color):
     ]
 
     positions_weight = 0
+
     for index, weight in enumerate(board_weights):
         board_position = board_as_string[index]
         if board_position == color:
             positions_weight += weight
-        elif board_position == the_board.opponent(color):
+        elif board_position == opponent_color:
             positions_weight -= weight
     
-    return positions_weight + board_score
+    return 2 * positions_weight + 3 * board_score
 
 if __name__ == '__main__':
     b = board.from_file(sys.argv[1])
