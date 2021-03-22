@@ -68,17 +68,17 @@ def min_value(the_board, color, alpha, beta, start_time, remaining_depth):
  
     if len(current_legal_moves) == 0:
         debugPrint('[MIN] Stopping because found no further possible moves')
-        return utility(the_board, color), INVALID_MOVE
+        return utility(the_board, opponent_color), INVALID_MOVE
 
     best_move = current_legal_moves[0]
 
     if time.time() - start_time >= MAX_RUN_TIME:
         debugPrint('[MAX] Stopping because time is up')
-        return utility(the_board, color), best_move
+        return utility(the_board, opponent_color), best_move
     
     if remaining_depth == 0:
         debugPrint('[MAX] Stopping because reach MAX_DEPTH')
-        return utility(the_board, color), best_move
+        return utility(the_board, opponent_color), best_move
 
     for s in current_legal_moves:
         other_board = board.from_string(str(the_board))
