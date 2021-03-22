@@ -124,7 +124,7 @@ def heuristic1(the_board, color):
 
     border_ratio = current_total_border_tiles / opponent_total_border_tiles if opponent_total_border_tiles else current_total_border_tiles
     
-    return score_ratio + border_ratio
+    return score_ratio + (2 * border_ratio)
 
 def heuristic2(the_board, color):
     opponent_color = the_board.opponent(color)
