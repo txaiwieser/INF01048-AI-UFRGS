@@ -4,10 +4,10 @@ from common import board
 import time
 
 DEBUG = False
-MAX_RUN_TIME = 3.0
+MAX_RUN_TIME = 3.8
 INVALID_MOVE = (-1, -1)
 INFINITY = float('inf')
-MAX_DEPTH = 10
+MAX_DEPTH = 50
 
 def debugPrint(str):
     if DEBUG: print("DEBUG B: " + str)
@@ -22,7 +22,9 @@ def make_move(the_board, color):
     return decide(the_board, color)
 
 def decide(the_board, color):
-    v, m = max_value(the_board, color, -INFINITY, INFINITY, time.time(), MAX_DEPTH)
+    initTime = time.time()
+    v, m = max_value(the_board, color, -INFINITY, INFINITY, initTime, MAX_DEPTH)
+    print(f"                                Tempo executado: { time.time() - initTime }")
     debugPrint(f'Found best move: { v }, { m }')
     return m
 
@@ -38,6 +40,7 @@ def max_value(the_board, color, alpha, beta, start_time, remaining_depth):
     
     if time.time() - start_time >= MAX_RUN_TIME:
         debugPrint('[MAX] Stopping because time is up')
+        print(f"                 Depth was: { remaining_depth }")
         return utility(the_board, color), best_move
     
     if remaining_depth == 0:
@@ -74,6 +77,7 @@ def min_value(the_board, color, alpha, beta, start_time, remaining_depth):
 
     if time.time() - start_time >= MAX_RUN_TIME:
         debugPrint('[MAX] Stopping because time is up')
+        print(f"                 Depth was: { remaining_depth }")
         return utility(the_board, opponent_color), best_move
     
     if remaining_depth == 0:
