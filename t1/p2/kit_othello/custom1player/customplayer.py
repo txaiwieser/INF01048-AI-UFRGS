@@ -35,7 +35,6 @@ def max_value(the_board, color, alpha, beta, start_time, remaining_depth):
         return utility(the_board, color), INVALID_MOVE
     
     best_move = current_legal_moves[0]
-    best_score = -INFINITY
     
     if time.time() - start_time >= MAX_RUN_TIME:
         debugPrint('[MAX] Stopping because time is up')
@@ -52,12 +51,10 @@ def max_value(the_board, color, alpha, beta, start_time, remaining_depth):
         min_val = min_value(other_board, the_board.opponent(color), alpha, beta, start_time, remaining_depth - 1)[0]
         debugPrint(f'[MAX] MinVal { min_val }')
 
-        if min_val > best_score:
+        if min_val > alpha:
             debugPrint(f'[MAX] Found better move { s }')
-            best_score = min_val
+            alpha = min_val
             best_move = s
-
-        alpha = max(alpha, best_score)
 
         if alpha >= beta:
             debugPrint('[MAX] Alpha-beta pruned')
@@ -74,7 +71,6 @@ def min_value(the_board, color, alpha, beta, start_time, remaining_depth):
         return utility(the_board, color), INVALID_MOVE
 
     best_move = current_legal_moves[0]
-    best_score = INFINITY
 
     if time.time() - start_time >= MAX_RUN_TIME:
         debugPrint('[MAX] Stopping because time is up')
@@ -91,12 +87,10 @@ def min_value(the_board, color, alpha, beta, start_time, remaining_depth):
         max_val = max_value(other_board, opponent_color, alpha, beta, start_time, remaining_depth - 1)[0]
         debugPrint(f'[MIN] MaxVal { max_val }')
 
-        if max_val < best_score:
+        if max_val < beta:
             debugPrint(f'[MIN] Found better move { s }')
-            best_score = max_val
+            beta = max_val
             best_move = s
-
-        beta = min(beta, best_score)
 
         if beta <= alpha:
             debugPrint('[MIN] Alpha-beta pruned')
@@ -108,13 +102,12 @@ def utility(the_board, color):
 
 def heuristic1(the_board, color):
     opponent_color = the_board.opponent(color)
+    board_as_string = str(the_board).replace('\n','')
 
     # Score Ratio: Tha ratio of points between our score and the opponent's
-    current_score = sum([1 for char in str(the_board) if char == color])
-    opponent_score = sum([1 for char in str(the_board) if char == opponent_color])
+    current_score = sum([1 for char in board_as_string if char == color])
+    opponent_score = sum([1 for char in board_as_string if char == opponent_color])
     score_ratio = current_score / opponent_score if opponent_score else current_score
-
-    board_as_string = str(the_board).replace('\n','')
     
     # Corner Weight
     current_upper_border_tiles = sum([1 for char in board_as_string[:8] if char == color])
