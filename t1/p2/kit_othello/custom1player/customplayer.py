@@ -47,6 +47,8 @@ def max_value(the_board, color, alpha, beta, start_time, remaining_depth):
         debugPrint('[MAX] Stopping because reach MAX_DEPTH')
         return utility(the_board, color), best_move
 
+    max_min_val = -INFINITY
+
     for s in current_legal_moves:
         other_board = board.from_string(str(the_board))
         other_board.process_move(s, color)
@@ -54,15 +56,19 @@ def max_value(the_board, color, alpha, beta, start_time, remaining_depth):
         min_val = min_value(other_board, the_board.opponent(color), alpha, beta, start_time, remaining_depth - 1)[0]
         debugPrint(f'[MAX] MinVal { min_val }')
 
-        if min_val > alpha:
+        if min_val > max_min_val:
             debugPrint(f'[MAX] Found better move { s }')
-            alpha = min_val
+            max_min_val = min_val
             best_move = s
+
+        if max_min_val > alpha:
+            debugPrint(f'[MAX] Found better alpha { s }')
+            alpha = max_min_val
 
         if alpha >= beta:
             debugPrint('[MAX] Alpha-beta pruned')
-            return alpha, best_move
-    return alpha, best_move
+            return max_min_val, best_move
+    return max_min_val, best_move
 
 def min_value(the_board, color, alpha, beta, start_time, remaining_depth):
     opponent_color = the_board.opponent(color)
@@ -84,6 +90,8 @@ def min_value(the_board, color, alpha, beta, start_time, remaining_depth):
         debugPrint('[MAX] Stopping because reach MAX_DEPTH')
         return utility(the_board, opponent_color), best_move
 
+    min_max_value = INFINITY
+
     for s in current_legal_moves:
         other_board = board.from_string(str(the_board))
         other_board.process_move(s, color)
@@ -91,15 +99,19 @@ def min_value(the_board, color, alpha, beta, start_time, remaining_depth):
         max_val = max_value(other_board, opponent_color, alpha, beta, start_time, remaining_depth - 1)[0]
         debugPrint(f'[MIN] MaxVal { max_val }')
 
-        if max_val < beta:
+        if max_val < min_max_value:
             debugPrint(f'[MIN] Found better move { s }')
-            beta = max_val
+            min_max_value = max_val
             best_move = s
+
+        if min_max_value < beta:
+            debugPrint(f'[MIN] Found better beta { s }')
+            beta = max_val
 
         if beta <= alpha:
             debugPrint('[MIN] Alpha-beta pruned')
-            return beta, best_move
-    return beta, best_move
+            return min_max_value, best_move
+    return min_max_value, best_move
 
 def utility(the_board, color):
     return heuristic1(the_board, color)
