@@ -17,7 +17,7 @@ def normalizeArray(arr):
 
 # MAIN
 
-rawCSVData = np.genfromtxt('/Users/txaiwieser/GitHub/INF01048-AI-UFRGS/t1/p3/house_prices_train.csv', delimiter=',')
+rawCSVData = np.genfromtxt('house_prices_train.csv', delimiter=',')
 
 #Extrair colunas para análise
 indexOfGrLivArea = 46
