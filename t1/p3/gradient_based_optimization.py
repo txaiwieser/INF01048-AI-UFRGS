@@ -248,6 +248,9 @@ def five_param_compute():
     #Imprimir erro com os parâmetros otimizados
     print ('Erro quadratico medio: ', five_param_compute_cost(theta_0, theta_1, theta_2, theta_3, theta_4, theta_5, fiveParamData))
 
-# one_param_compute()
-# two_param_compute()
+print ('ONE PARAM SOLUTION: ')
+one_param_compute()
+print ('TWO PARAM SOLUTION: ')
+two_param_compute()
+print ('FIVE PARAM SOLUTION: ')
 five_param_compute()
