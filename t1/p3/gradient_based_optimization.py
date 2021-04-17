@@ -1,5 +1,6 @@
 import sys
 import numpy as np
+from pathlib import Path
 
 # CONSTANTS 
 DEBUG = False
@@ -16,8 +17,8 @@ def normalizeArray(arr):
     return normalize(arr)
 
 # MAIN
-
-rawCSVData = np.genfromtxt('house_prices_train.csv', delimiter=',')
+path = Path(__file__).parent / 'house_prices_train.csv'
+rawCSVData = np.genfromtxt(path, delimiter=',')
 
 #Extrair colunas para análise
 indexOfGrLivArea = 46
