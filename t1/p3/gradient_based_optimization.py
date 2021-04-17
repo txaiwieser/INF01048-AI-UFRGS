@@ -41,9 +41,9 @@ normalizedOverallConds = normalizeArray(overallConds)
 normalizedGarageAreas = normalizeArray(garageAreas)
 normalizedYearsBuilt = normalizeArray(yearsBuilt)
 
-oneParamData = np.array([normalizedGrLivAreas, salePrices])
-twoParamData = np.array([normalizedGrLivAreas, normalizedOverallQuals, salePrices])
-fiveParamData = np.array([normalizedGrLivAreas, normalizedOverallQuals, normalizedOverallConds, normalizedGarageAreas, normalizedYearsBuilt, salePrices])
+oneParamData = np.array([normalizedGrLivAreas, salePrices]).T
+twoParamData = np.array([normalizedGrLivAreas, normalizedOverallQuals, salePrices]).T
+fiveParamData = np.array([normalizedGrLivAreas, normalizedOverallQuals, normalizedOverallConds, normalizedGarageAreas, normalizedYearsBuilt, salePrices]).T
 
 #### Definição da função de custo
 
