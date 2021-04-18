@@ -325,7 +325,7 @@ def five_param_gradient_descent(data, starting_theta_0, starting_theta_1, starti
 num_iterations = 100
 
 def one_param_compute():
-    theta_0, theta_1, cost_graph, theta_0_progress, theta_1_progress = one_param_gradient_descent(oneParamData, starting_theta_0=0, starting_theta_1=0, learning_rate=0.9, num_iterations=num_iterations)
+    theta_0, theta_1, cost_graph, theta_0_progress, theta_1_progress = one_param_gradient_descent(oneParamData, starting_theta_0=0, starting_theta_1=0, learning_rate=0.666, num_iterations=num_iterations)
 
     #Imprimir parâmetros otimizados
     print ('Theta_0: ', theta_0)
@@ -335,7 +335,7 @@ def one_param_compute():
     print ('Erro quadratico medio: ', one_param_compute_cost(theta_0, theta_1, oneParamData))
 
 def two_param_compute():
-    theta_0, theta_1, theta_2, cost_graph, theta_0_progress, theta_1_progress, theta_2_progress = two_param_gradient_descent(twoParamData, starting_theta_0=0, starting_theta_1=0, starting_theta_2=0, learning_rate=0.9, num_iterations=num_iterations)
+    theta_0, theta_1, theta_2, cost_graph, theta_0_progress, theta_1_progress, theta_2_progress = two_param_gradient_descent(twoParamData, starting_theta_0=0, starting_theta_1=0, starting_theta_2=0, learning_rate=0.666, num_iterations=num_iterations)
 
     #Imprimir parâmetros otimizados
     print ('Theta_0: ', theta_0)
@@ -346,7 +346,7 @@ def two_param_compute():
     print ('Erro quadratico medio: ', two_param_compute_cost(theta_0, theta_1, theta_2, twoParamData))
 
 def five_param_compute():
-    theta_0, theta_1, theta_2, theta_3, theta_4, theta_5, cost_graph, theta_0_progress, theta_1_progress, theta_2_progress, theta_3_progress, theta_4_progress, theta_5_progress = five_param_gradient_descent(fiveParamData, starting_theta_0=0, starting_theta_1=0, starting_theta_2=0, starting_theta_3=0, starting_theta_4=0, starting_theta_5=0, learning_rate=0.9, num_iterations=num_iterations)
+    theta_0, theta_1, theta_2, theta_3, theta_4, theta_5, cost_graph, theta_0_progress, theta_1_progress, theta_2_progress, theta_3_progress, theta_4_progress, theta_5_progress = five_param_gradient_descent(fiveParamData, starting_theta_0=0, starting_theta_1=0, starting_theta_2=0, starting_theta_3=0, starting_theta_4=0, starting_theta_5=0, learning_rate=0.42, num_iterations=num_iterations)
 
     #Imprimir parâmetros otimizados
     print ('Theta_0: ', theta_0)
