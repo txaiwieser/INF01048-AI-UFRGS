@@ -7,8 +7,8 @@ DEBUG = False
 CONVERGENCE_RANGE = 100
 
 # HELPERS
-def debugPrint(str):
-    if DEBUG: print("DEBUG: " + str)
+def debugPrint(*strs):
+    if DEBUG: print("DEBUG: ", strs)
 
 def normalizeArray(arr):
     min = arr.min()
@@ -232,6 +232,7 @@ def one_param_gradient_descent(data, starting_theta_0, starting_theta_1, learnin
     for i in range(num_iterations):
         cost_graph.append(one_param_compute_cost(theta_0, theta_1, data))
         theta_0, theta_1 = one_param_step_gradient(theta_0, theta_1, data, learning_rate)
+        debugPrint(theta_0, theta_1)
         theta_0_progress.append(theta_0)
         theta_1_progress.append(theta_1)
         if hasConverged(theta_0_progress, theta_1_progress):
@@ -263,6 +264,7 @@ def two_param_gradient_descent(data, starting_theta_0, starting_theta_1, startin
     for i in range(num_iterations):
         cost_graph.append(two_param_compute_cost(theta_0, theta_1, theta_2, data))
         theta_0, theta_1, theta_2 = two_param_step_gradient(theta_0, theta_1, theta_2, data, learning_rate)
+        debugPrint(theta_0, theta_1, theta_2)
         theta_0_progress.append(theta_0)
         theta_1_progress.append(theta_1)
         theta_2_progress.append(theta_2)
@@ -301,6 +303,7 @@ def five_param_gradient_descent(data, starting_theta_0, starting_theta_1, starti
     for i in range(num_iterations):
         cost_graph.append(five_param_compute_cost(theta_0, theta_1, theta_2, theta_3, theta_4, theta_5, data))
         theta_0, theta_1, theta_2, theta_3, theta_4, theta_5 = five_param_step_gradient(theta_0, theta_1, theta_2, theta_3, theta_4, theta_5, data, learning_rate)
+        debugPrint(theta_0, theta_1, theta_2, theta_3, theta_4, theta_5)
         theta_0_progress.append(theta_0)
         theta_1_progress.append(theta_1)
         theta_2_progress.append(theta_2)
