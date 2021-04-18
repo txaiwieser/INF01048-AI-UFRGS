@@ -113,10 +113,11 @@ def one_param_step_gradient(theta_0_current, theta_1_current, data, alpha):
     y = np.array(data[:,1])
     n = len(y)
     for i in range(n):
+      hx = h(x1[i])
       # 2 (a + b x1 + c x2 - y)
-      theta_0_updated += (h(x1[i]) - y[i])
+      theta_0_updated += hx - y[i]
       # 2 x1 (a + b x1 + c x2 - y)
-      theta_1_updated += (h(x1[i]) - y[i]) * x1[i]
+      theta_1_updated += (hx - y[i]) * x1[i]
 
     theta_0_updated *= 2/n
     theta_1_updated *= 2/n
@@ -140,12 +141,13 @@ def two_param_step_gradient(theta_0_current, theta_1_current, theta_2_current, d
     n = len(y)
 
     for i in range(n):
+      hx = h(x1[i], x2[i])
       # 2 (a + b x1 + c x2 - y)
-      theta_0_updated += (h(x1[i], x2[i]) - y[i])
+      theta_0_updated += hx - y[i]
       # 2 x1 (a + b x1 + c x2 - y)
-      theta_1_updated += (h(x1[i], x2[i]) - y[i]) * x1[i]
+      theta_1_updated += (hx - y[i]) * x1[i]
       # 2 x2 (a + b x1 + c x2 - y)
-      theta_2_updated += (h(x1[i], x2[i]) - y[i]) * x2[i]
+      theta_2_updated += (hx - y[i]) * x2[i]
 
     theta_0_updated *= 2/n
     theta_1_updated *= 2/n
@@ -177,18 +179,19 @@ def five_param_step_gradient(theta_0_current, theta_1_current, theta_2_current, 
     n = len(y)
 
     for i in range(n):
+      hx = h(x1[i], x2[i], x3[i], x4[i], x5[i])
       # 2 (a + b x1 + c x2 + d x3 + e x4 + f x5 - y)
-      theta_0_updated += (h(x1[i], x2[i], x3[i], x4[i], x5[i]) - y[i])
+      theta_0_updated += hx - y[i]
       # 2 x1 (a + b x1 + c x2 + d x3 + e x4 + f x5 - y)
-      theta_1_updated += (h(x1[i], x2[i], x3[i], x4[i], x5[i]) - y[i]) * x1[i]
+      theta_1_updated += (hx - y[i]) * x1[i]
       # 2 x2 (a + b x1 + c x2 + d x3 + e x4 + f x5 - y)
-      theta_2_updated += (h(x1[i], x2[i], x3[i], x4[i], x5[i]) - y[i]) * x2[i]
+      theta_2_updated += (hx - y[i]) * x2[i]
       # 2 x3 (a + b x1 + c x2 + d x3 + e x4 + f x5 - y)
-      theta_3_updated += (h(x1[i], x2[i], x3[i], x4[i], x5[i]) - y[i]) * x3[i]
+      theta_3_updated += (hx - y[i]) * x3[i]
       # 2 x4 (a + b x1 + c x2 + d x3 + e x4 + f x5 - y)
-      theta_4_updated += (h(x1[i], x2[i], x3[i], x4[i], x5[i]) - y[i]) * x4[i]
+      theta_4_updated += (hx - y[i]) * x4[i]
       # 2 x5 (a + b x1 + c x2 + d x3 + e x4 + f x5 - y)
-      theta_5_updated += (h(x1[i], x2[i], x3[i], x4[i], x5[i]) - y[i]) * x5[i]
+      theta_5_updated += (hx - y[i]) * x5[i]
 
     theta_0_updated *= 2/n
     theta_1_updated *= 2/n
