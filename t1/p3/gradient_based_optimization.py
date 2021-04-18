@@ -276,7 +276,7 @@ def five_param_gradient_descent(data, starting_theta_0, starting_theta_1, starti
 
 #### Executa a função gradient_descent() para obter os parâmetros otimizados, Theta0 e Theta1.
 
-num_iterations = 100
+num_iterations = 10000
 
 def one_param_compute():
     theta_0, theta_1 = one_param_gradient_descent(oneParamData, starting_theta_0=0, starting_theta_1=0, learning_rate=0.666, num_iterations=num_iterations)
