@@ -220,9 +220,6 @@ def one_param_gradient_descent(data, starting_theta_0, starting_theta_1, learnin
     theta_0 = starting_theta_0
     theta_1 = starting_theta_1
     
-    # variável para armazenar o custo ao final de cada step_gradient
-    cost_graph = []
-    
     # vetores para armazenar os valores de Theta0 e Theta1 apos cada iteração de step_gradient (pred = Theta1*x + Theta0)
     theta_0_progress = []
     theta_1_progress = []
@@ -230,7 +227,6 @@ def one_param_gradient_descent(data, starting_theta_0, starting_theta_1, learnin
     # Para cada iteração, obtem novos (Theta0,Theta1) e calcula o custo (EQM)
     has_converged = False
     for i in range(num_iterations):
-        cost_graph.append(one_param_compute_cost(theta_0, theta_1, data))
         theta_0, theta_1 = one_param_step_gradient(theta_0, theta_1, data, learning_rate)
         debugPrint(theta_0, theta_1)
         theta_0_progress.append(theta_0)
@@ -243,16 +239,13 @@ def one_param_gradient_descent(data, starting_theta_0, starting_theta_1, learnin
     if not has_converged:
       print('Did NOT converge after', num_iterations, 'iterations')
 
-    return [theta_0, theta_1, cost_graph, theta_0_progress, theta_1_progress]
+    return [theta_0, theta_1]
 
 def two_param_gradient_descent(data, starting_theta_0, starting_theta_1, starting_theta_2, learning_rate, num_iterations):
     # valores iniciais
     theta_0 = starting_theta_0
     theta_1 = starting_theta_1
     theta_2 = starting_theta_2
-
-    # variável para armazenar o custo ao final de cada step_gradient
-    cost_graph = []
     
     # vetores para armazenar os valores de Theta0 e Theta1 apos cada iteração de step_gradient (pred = Theta1*x + Theta0)
     theta_0_progress = []
@@ -262,7 +255,6 @@ def two_param_gradient_descent(data, starting_theta_0, starting_theta_1, startin
     # Para cada iteração, obtem novos (Theta0, Theta1) e calcula o custo (EQM)
     has_converged = False
     for i in range(num_iterations):
-        cost_graph.append(two_param_compute_cost(theta_0, theta_1, theta_2, data))
         theta_0, theta_1, theta_2 = two_param_step_gradient(theta_0, theta_1, theta_2, data, learning_rate)
         debugPrint(theta_0, theta_1, theta_2)
         theta_0_progress.append(theta_0)
@@ -276,7 +268,7 @@ def two_param_gradient_descent(data, starting_theta_0, starting_theta_1, startin
     if not has_converged:
       print('Did NOT converge after', num_iterations, 'iterations')
         
-    return [theta_0, theta_1, theta_2, cost_graph, theta_0_progress, theta_1_progress, theta_2_progress]
+    return [theta_0, theta_1, theta_2]
 
 def five_param_gradient_descent(data, starting_theta_0, starting_theta_1, starting_theta_2, starting_theta_3, starting_theta_4, starting_theta_5, learning_rate, num_iterations):
     # valores iniciais
@@ -286,9 +278,6 @@ def five_param_gradient_descent(data, starting_theta_0, starting_theta_1, starti
     theta_3 = starting_theta_3
     theta_4 = starting_theta_4
     theta_5 = starting_theta_5
-
-    # variável para armazenar o custo ao final de cada step_gradient
-    cost_graph = []
     
     # vetores para armazenar os valores de Theta0 e Theta1 apos cada iteração de step_gradient (pred = Theta1*x + Theta0)
     theta_0_progress = []
@@ -301,7 +290,6 @@ def five_param_gradient_descent(data, starting_theta_0, starting_theta_1, starti
     # Para cada iteração, obtem novos (Theta0, Theta1) e calcula o custo (EQM)
     has_converged = False
     for i in range(num_iterations):
-        cost_graph.append(five_param_compute_cost(theta_0, theta_1, theta_2, theta_3, theta_4, theta_5, data))
         theta_0, theta_1, theta_2, theta_3, theta_4, theta_5 = five_param_step_gradient(theta_0, theta_1, theta_2, theta_3, theta_4, theta_5, data, learning_rate)
         debugPrint(theta_0, theta_1, theta_2, theta_3, theta_4, theta_5)
         theta_0_progress.append(theta_0)
@@ -318,14 +306,14 @@ def five_param_gradient_descent(data, starting_theta_0, starting_theta_1, starti
     if not has_converged:
       print('Did NOT converge after', num_iterations, 'iterations')
 
-    return [theta_0, theta_1, theta_2, theta_3, theta_4, theta_5, cost_graph, theta_0_progress, theta_1_progress, theta_2_progress, theta_3_progress, theta_4_progress, theta_5_progress]
+    return [theta_0, theta_1, theta_2, theta_3, theta_4, theta_5]
 
 #### Executa a função gradient_descent() para obter os parâmetros otimizados, Theta0 e Theta1.
 
 num_iterations = 100
 
 def one_param_compute():
-    theta_0, theta_1, cost_graph, theta_0_progress, theta_1_progress = one_param_gradient_descent(oneParamData, starting_theta_0=0, starting_theta_1=0, learning_rate=0.666, num_iterations=num_iterations)
+    theta_0, theta_1 = one_param_gradient_descent(oneParamData, starting_theta_0=0, starting_theta_1=0, learning_rate=0.666, num_iterations=num_iterations)
 
     #Imprimir parâmetros otimizados
     print ('Theta_0: ', theta_0)
@@ -335,7 +323,7 @@ def one_param_compute():
     print ('Erro quadratico medio: ', one_param_compute_cost(theta_0, theta_1, oneParamData))
 
 def two_param_compute():
-    theta_0, theta_1, theta_2, cost_graph, theta_0_progress, theta_1_progress, theta_2_progress = two_param_gradient_descent(twoParamData, starting_theta_0=0, starting_theta_1=0, starting_theta_2=0, learning_rate=0.666, num_iterations=num_iterations)
+    theta_0, theta_1, theta_2 = two_param_gradient_descent(twoParamData, starting_theta_0=0, starting_theta_1=0, starting_theta_2=0, learning_rate=0.666, num_iterations=num_iterations)
 
     #Imprimir parâmetros otimizados
     print ('Theta_0: ', theta_0)
@@ -346,7 +334,7 @@ def two_param_compute():
     print ('Erro quadratico medio: ', two_param_compute_cost(theta_0, theta_1, theta_2, twoParamData))
 
 def five_param_compute():
-    theta_0, theta_1, theta_2, theta_3, theta_4, theta_5, cost_graph, theta_0_progress, theta_1_progress, theta_2_progress, theta_3_progress, theta_4_progress, theta_5_progress = five_param_gradient_descent(fiveParamData, starting_theta_0=0, starting_theta_1=0, starting_theta_2=0, starting_theta_3=0, starting_theta_4=0, starting_theta_5=0, learning_rate=0.42, num_iterations=num_iterations)
+    theta_0, theta_1, theta_2, theta_3, theta_4, theta_5 = five_param_gradient_descent(fiveParamData, starting_theta_0=0, starting_theta_1=0, starting_theta_2=0, starting_theta_3=0, starting_theta_4=0, starting_theta_5=0, learning_rate=0.42, num_iterations=num_iterations)
 
     #Imprimir parâmetros otimizados
     print ('Theta_0: ', theta_0)
