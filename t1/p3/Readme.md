@@ -1,0 +1,14 @@
+# INF01048-AI-UFRGS
+Assignments of the Artificial Intelligence class at UFRGS
+
+Integrantes:
+- Matheus Rhoden, 277948, Turma A
+- Rodrigo Cardoso Buske, 206526, Turma B
+- Txai Wieser, 217052, Turma B
+
+Bibliotecas Nativas:
+- sys
+- pathlib
+
+Bibliotecas Adicionais:
+- numpy
