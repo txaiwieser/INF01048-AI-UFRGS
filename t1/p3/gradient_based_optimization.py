@@ -220,12 +220,12 @@ def one_param_gradient_descent(data, learning_rate, num_iterations):
         debugPrint(new_theta_0, new_theta_1)
         if (new_theta_0, new_theta_1) == (theta_0, theta_1):
           has_converged = True
-          print('Converged after', i, 'iterations')
+          debugPrint('Converged after', i, 'iterations')
           break
         theta_0, theta_1 = new_theta_0, new_theta_1
 
     if not has_converged:
-      print('Did NOT converge after', num_iterations, 'iterations')
+      debugPrint('Did NOT converge after', num_iterations, 'iterations')
 
     return [theta_0, theta_1]
 
@@ -240,12 +240,12 @@ def two_param_gradient_descent(data, learning_rate, num_iterations):
         debugPrint(new_theta_0, new_theta_1, new_theta_2)
         if (new_theta_0, new_theta_1, new_theta_2) == (theta_0, theta_1, theta_2):
           has_converged = True
-          print('Converged after', i, 'iterations')
+          debugPrint('Converged after', i, 'iterations')
           break
         theta_0, theta_1, theta_2 = new_theta_0, new_theta_1, new_theta_2
 
     if not has_converged:
-      print('Did NOT converge after', num_iterations, 'iterations')
+      debugPrint('Did NOT converge after', num_iterations, 'iterations')
         
     return [theta_0, theta_1, theta_2]
 
@@ -260,12 +260,12 @@ def five_param_gradient_descent(data, learning_rate, num_iterations):
         debugPrint(new_theta_0, new_theta_1, new_theta_2, new_theta_3, new_theta_4, new_theta_5)
         if (new_theta_0, new_theta_1, new_theta_2, new_theta_3, new_theta_4, new_theta_5) == (theta_0, theta_1, theta_2, theta_3, theta_4, theta_5):
           has_converged = True
-          print('Converged after', i, 'iterations')
+          debugPrint('Converged after', i, 'iterations')
           break
         theta_0, theta_1, theta_2, theta_3, theta_4, theta_5 = new_theta_0, new_theta_1, new_theta_2, new_theta_3, new_theta_4, new_theta_5
         
     if not has_converged:
-      print('Did NOT converge after', num_iterations, 'iterations')
+      debugPrint('Did NOT converge after', num_iterations, 'iterations')
 
     return [theta_0, theta_1, theta_2, theta_3, theta_4, theta_5]
 
@@ -277,36 +277,36 @@ def one_param_compute():
     theta_0, theta_1 = one_param_gradient_descent(oneParamData, learning_rate=0.666, num_iterations=num_iterations)
 
     #Imprimir parâmetros otimizados
-    print ('Theta_0: ', theta_0)
-    print ('Theta_1: ', theta_1)
+    print ('theta_0:', theta_0)
+    print ('theta_1:', theta_1)
 
     #Imprimir erro com os parâmetros otimizados
-    print ('Erro quadratico medio: ', one_param_compute_cost(theta_0, theta_1, oneParamData))
+    print ('Erro quadratico medio:', one_param_compute_cost(theta_0, theta_1, oneParamData))
 
 def two_param_compute():
     theta_0, theta_1, theta_2 = two_param_gradient_descent(twoParamData, learning_rate=0.666, num_iterations=num_iterations)
 
     #Imprimir parâmetros otimizados
-    print ('Theta_0: ', theta_0)
-    print ('Theta_1: ', theta_1)
-    print ('Theta_2: ', theta_2)
+    print ('theta_0:', theta_0)
+    print ('theta_1:', theta_1)
+    print ('theta_2:', theta_2)
 
     #Imprimir erro com os parâmetros otimizados
-    print ('Erro quadratico medio: ', two_param_compute_cost(theta_0, theta_1, theta_2, twoParamData))
+    print ('Erro quadratico medio:', two_param_compute_cost(theta_0, theta_1, theta_2, twoParamData))
 
 def five_param_compute():
     theta_0, theta_1, theta_2, theta_3, theta_4, theta_5 = five_param_gradient_descent(fiveParamData, learning_rate=0.42, num_iterations=num_iterations)
 
     #Imprimir parâmetros otimizados
-    print ('Theta_0: ', theta_0)
-    print ('Theta_1: ', theta_1)
-    print ('Theta_2: ', theta_2)
-    print ('Theta_3: ', theta_3)
-    print ('Theta_4: ', theta_4)
-    print ('Theta_5: ', theta_5)
+    print ('theta_0:', theta_0)
+    print ('theta_1:', theta_1)
+    print ('theta_2:', theta_2)
+    print ('theta_3:', theta_3)
+    print ('theta_4:', theta_4)
+    print ('theta_5:', theta_5)
 
     #Imprimir erro com os parâmetros otimizados
-    print ('Erro quadratico medio: ', five_param_compute_cost(theta_0, theta_1, theta_2, theta_3, theta_4, theta_5, fiveParamData))
+    print ('Erro quadratico medio:', five_param_compute_cost(theta_0, theta_1, theta_2, theta_3, theta_4, theta_5, fiveParamData))
 
 print ('ONE PARAM SOLUTION: ')
 one_param_compute()
