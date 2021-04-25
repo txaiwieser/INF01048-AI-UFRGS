@@ -271,9 +271,7 @@ def five_param_gradient_descent(data, learning_rate, num_iterations):
 
 #### Executa a função gradient_descent() para obter os parâmetros otimizados, Theta0 e Theta1.
 
-num_iterations = 10000
-
-def one_param_compute():
+def one_param_compute(num_iterations):
     theta_0, theta_1 = one_param_gradient_descent(oneParamData, learning_rate=0.666, num_iterations=num_iterations)
 
     #Imprimir parâmetros otimizados
@@ -283,7 +281,7 @@ def one_param_compute():
     #Imprimir erro com os parâmetros otimizados
     print ('Erro quadratico medio:', one_param_compute_cost(theta_0, theta_1, oneParamData))
 
-def two_param_compute():
+def two_param_compute(num_iterations):
     theta_0, theta_1, theta_2 = two_param_gradient_descent(twoParamData, learning_rate=0.666, num_iterations=num_iterations)
 
     #Imprimir parâmetros otimizados
@@ -294,7 +292,7 @@ def two_param_compute():
     #Imprimir erro com os parâmetros otimizados
     print ('Erro quadratico medio:', two_param_compute_cost(theta_0, theta_1, theta_2, twoParamData))
 
-def five_param_compute():
+def five_param_compute(num_iterations):
     theta_0, theta_1, theta_2, theta_3, theta_4, theta_5 = five_param_gradient_descent(fiveParamData, learning_rate=0.42, num_iterations=num_iterations)
 
     #Imprimir parâmetros otimizados
@@ -308,9 +306,13 @@ def five_param_compute():
     #Imprimir erro com os parâmetros otimizados
     print ('Erro quadratico medio:', five_param_compute_cost(theta_0, theta_1, theta_2, theta_3, theta_4, theta_5, fiveParamData))
 
+### Execução para testes
+
+num_iterations = 10000
+
 print ('ONE PARAM SOLUTION: ')
-one_param_compute()
+one_param_compute(num_iterations)
 print ('TWO PARAM SOLUTION: ')
-two_param_compute()
+two_param_compute(num_iterations)
 print ('FIVE PARAM SOLUTION: ')
-five_param_compute()
+five_param_compute(num_iterations)
