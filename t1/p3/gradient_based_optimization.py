@@ -32,8 +32,11 @@ if __name__ == '__main__':
       if IS_TEST:
         fileName = 'house_prices_train.csv'
       else:
-        print("Supply a file name and iteration count")
+        print("Supply a function name, file name and iteration count")
         exit()
+
+else:
+  exit()
 
 path = Path(__file__).parent / fileName
 rawCSVData = np.genfromtxt(path, delimiter=',')
