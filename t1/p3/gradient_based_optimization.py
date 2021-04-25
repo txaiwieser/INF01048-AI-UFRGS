@@ -4,6 +4,7 @@ from pathlib import Path
 
 # CONSTANTS 
 DEBUG = False
+IS_TEST = False
 
 # HELPERS
 def debugPrint(*strs):
@@ -17,7 +18,24 @@ def normalizeArray(arr):
     return normalize(arr)
 
 # MAIN
-path = Path(__file__).parent / 'house_prices_train.csv'
+if __name__ == '__main__':
+
+  if len(sys.argv) == 4:
+    debugPrint(sys.argv[1])
+    debugPrint(sys.argv[2])
+    debugPrint(sys.argv[3])
+    functionName = sys.argv[1]
+    fileName = sys.argv[2]
+    functionValue = int(sys.argv[3])
+    
+  else:
+      if IS_TEST:
+        fileName = 'house_prices_train.csv'
+      else:
+        print("Supply a file name and iteration count")
+        exit()
+
+path = Path(__file__).parent / fileName
 rawCSVData = np.genfromtxt(path, delimiter=',')
 
 #Extrair colunas para análise
@@ -308,11 +326,21 @@ def five_param_compute(num_iterations):
 
 ### Execução para testes
 
-num_iterations = 10000
+def run_tests():
+  num_iterations = 10000
 
-print ('ONE PARAM SOLUTION: ')
-one_param_compute(num_iterations)
-print ('TWO PARAM SOLUTION: ')
-two_param_compute(num_iterations)
-print ('FIVE PARAM SOLUTION: ')
-five_param_compute(num_iterations)
+  print ('ONE PARAM SOLUTION: ')
+  one_param_compute(num_iterations)
+  print ('TWO PARAM SOLUTION: ')
+  two_param_compute(num_iterations)
+  print ('FIVE PARAM SOLUTION: ')
+  five_param_compute(num_iterations)
+
+def run_from_script():
+  globals()[functionName](functionValue)
+
+if IS_TEST:
+  run_tests()
+
+else:
+  run_from_script()
