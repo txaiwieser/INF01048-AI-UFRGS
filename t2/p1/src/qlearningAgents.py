@@ -71,7 +71,7 @@ class QLearningAgent(ReinforcementAgent):
         """
         legalActions = self.getLegalActions(state)
         legalActions = list(map(lambda a : (a, self.getQValue(state, a)), legalActions))
-        maxQValue = max(legalActions, key = lambda a : a[1], default = 0.0)[1]
+        maxQValue = max(legalActions, key = lambda a : a[1], default = (None, 0.0))[1]
         optimalActions = list(filter(lambda a : a[1] == maxQValue, legalActions))
         return random.choice(optimalActions)[0] if optimalActions else None
 
